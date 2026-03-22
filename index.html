@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Ramo de Flores para Ti</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS (CSS) --- */
+        :root {
+            --fondo: #fffdf2;
+            --texto-principal: #5d54a4;
+            --rosa-flor: #ffb7c5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fff9e6 0%, #fffdf2 100%);
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Decoración de fondo sutil */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.1) 2%, transparent 2.5%);
+            background-size: 35px 35px;
+            pointer-events: none;
+        }
+
+        /* Contenedor de la Introducción */
+        #intro-container {
+            position: absolute;
+            text-align: center;
+            padding: 20px;
+            z-index: 20;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(3px);
+            background-color: rgba(255, 253, 242, 0.7);
+        }
+
+        .frase {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #e6b800;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            width: 85%;
+            max-width: 700px;
+            margin: 0 auto;
+            font-family: 'Dancing Script', cursive;
+            letter-spacing: 1px;
+            background: rgba(255, 250, 225, 0.6);
+            padding: 25px 40px;
+            border-radius: 80px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Contenedor Principal (Oculto al inicio) */
+        #main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.8s ease-out;
+            width: 90%;
+            max-width: 650px;
+            z-index: 10;
+            position: relative;
+            animation: floatIn 0.8s ease-out;
+        }
+
+        @keyframes floatIn {
+            0% {
+                transform: translateY(25px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--texto-principal);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #5d54a4, #9b7bc9);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 3px 3px 12px rgba(93, 84, 164, 0.1);
+        }
+
+        .mensaje-final {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.6rem;
+            color: #ffaa33;
+            margin-top: 25px;
+            background: rgba(255, 255, 245, 0.7);
+            padding: 12px 28px;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Estilos del Ramo de Flores (Foto) */
+        .flower-container {
+            width: 320px;
+            height: auto;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease, filter 0.3s ease;
+            animation: sway 4s ease-in-out infinite;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffe6f0, #fff0f5);
+            padding: 15px;
+        }
+
+        .flower-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            display: block;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .flower-container:hover {
+            transform: scale(1.02);
+            filter: drop-shadow(0 15px 25px rgba(255, 105, 180, 0.2));
+        }
+
+        .flower-container:hover img {
+            transform: scale(1.02);
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-2deg) translateY(0px); }
+            50% { transform: rotate(2deg) translateY(-8px); }
+        }
+
+        /* Clases de utilidad para JS */
+        .show { opacity: 1 !important; }
+        .hide { opacity: 0 !important; }
+
+        /* Partículas flotantes animadas */
+        .petal-particle {
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(circle, #ffb7c5, #ff69b4);
+            border-radius: 50% 50% 50% 50%;
+            opacity: 0.3;
+            animation: floatPetal linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes floatPetal {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Mensaje de carga por si la imagen tarda */
+        .image-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff69b4;
+            font-size: 14px;
+            background: rgba(255,255,255,0.8);
+            padding: 5px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.6rem; }
+            .frase { font-size: 1.6rem; padding: 18px 28px; width: 90%; }
+            .flower-container { width: 280px; padding: 12px; }
+            .mensaje-final { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-container">
+        <div id="text-display" class="frase"></div>
+    </div>
+
+    <div id="main-content">
+        <h1>✨ Un Ramo Especial para Ti ✨</h1>
+        
+        <div class="flower-container" id="flowerClick">
+            <img id="ramoImagen" 
+                 src="flores.png" 
+                 alt="Ramo de flores hermoso"
+                 onerror="this.src='https://images.pexels.com/photos/568522/pexels-photo-568522.jpeg?auto=compress&cs=tinysrgb&w=600'">
+        </div>
+
+        <div class="mensaje-final" id="mensajeCorazon">💖 Para ti con mucho cariño 💖</div>
+    </div>
+
+    <script>
+        /* --- LÓGICA (JavaScript) con interacción y partículas--- */
+
+        // 1. Definición de frases de la introducción (mensajes más cálidos)
+        const phrases = [
+            "🌹 Para ti, con todo mi cariño...",
+            "Cada flor de este ramo guarda una sonrisa tuya.",
+            "Los colores de estas flores reflejan tu alegría.",
+            "Espero que este ramo ilumine tu día ✨",
+            "Eres especial, nunca lo olvides. 💐"
+        ];
+
+        const textDisplay = document.getElementById('text-display');
+        const introContainer = document.getElementById('intro-container');
+        const mainContent = document.getElementById('main-content');
+        const flowerContainer = document.getElementById('flowerClick');
+        const ramoImagen = document.getElementById('ramoImagen');
+        const mensajeDiv = document.getElementById('mensajeCorazon');
+
+        let currentPhraseIndex = 0;
+        let particleInterval = null;
+
+        /**
+         * Crear pequeñas partículas decorativas tipo pétalos que flotan
+         */
+        function createFloatingPetals() {
+            if (particleInterval) clearInterval(particleInterval);
+            particleInterval = setInterval(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal-particle');
+                const size = Math.random() * 12 + 5;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size * 0.8}px`;
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.animationDuration = `${Math.random() * 7 + 5}s`;
+                petal.style.animationDelay = `${Math.random() * 2}s`;
+                petal.style.opacity = Math.random() * 0.4 + 0.2;
+                petal.style.background = `radial-gradient(circle, #FFB7C5, #FF69B4)`;
+                petal.style.borderRadius = '40% 60% 50% 50%';
+                document.body.appendChild(petal);
+                
+                setTimeout(() => {
+                    petal.remove();
+                }, 9000);
+            }, 800);
+        }
+
+        /**
+         * Función para manejar la secuencia de texto.
+         */
+        function showNextPhrase() {
+            if (currentPhraseIndex < phrases.length) {
+                textDisplay.textContent = phrases[currentPhraseIndex];
+                
+                // Fade-in
+                setTimeout(() => {
+                    textDisplay.classList.add('show');
+                }, 80);
+
+                // Tiempo visible 2.8 segundos
+                setTimeout(() => {
+                    textDisplay.classList.remove('show');
+                    textDisplay.classList.add('hide');
+
+                    // Pequeña pausa antes de la siguiente
+                    setTimeout(() => {
+                        textDisplay.classList.remove('hide');
+                        currentPhraseIndex++;
+                        showNextPhrase();
+                    }, 1300);
+
+                }, 2800);
+            } else {
+                // Terminan las frases, transición elegante
+                transitionToMainContent();
+            }
+        }
+
+        /**
+         * Transición suave + partículas y efectos
+         */
+        function transitionToMainContent() {
+            // Desvanecer intro container lentamente
+            introContainer.style.transition = 'opacity 1.2s ease';
+            introContainer.style.opacity = '0';
+            
+            setTimeout(() => {
+                introContainer.style.display = 'none';
+                mainContent.style.display = 'flex';
+                // Forzar reflow para activar transición
+                void mainContent.offsetWidth;
+                mainContent.classList.add('show');
+                // Iniciar partículas flotantes cuando ya estamos en el jardín
+                createFloatingPetals();
+                // Agregar pequeño efecto de brillo al aparecer el ramo
+                if(flowerContainer) {
+                    flowerContainer.style.filter = 'drop-shadow(0 0 8px #ffb7c5)';
+                    setTimeout(() => {
+                        flowerContainer.style.filter = '';
+                    }, 800);
+                }
+            }, 300);
+        }
+
+        /**
+         * Efecto interactivo: Al hacer clic en el ramo, el mensaje cambia y se anima
+         */
+        function setupInteractiveFlower() {
+            if (!flowerContainer) return;
+            const originalMsg = "💖 Para ti con mucho cariño 💖";
+            const alternativeMessages = [
+                "🌹 ¡Eres la flor más hermosa! 🌹",
+                "🌸 Tu sonrisa ilumina mi vida 🌸",
+                "🌷 Eres única y especial 🌷",
+                "✨ Eres mi persona favorita ✨",
+                "💫 Gracias por existir 💫",
+                "🌺 Este ramo es para ti 🌺"
+            ];
+            let clickCount = 0;
+
+            flowerContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                clickCount++;
+                // Efecto de rebote suave en el ramo
+                flowerContainer.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    flowerContainer.style.transform = '';
+                }, 200);
+                
+                // Cambiar mensaje según clics
+                if (clickCount <= alternativeMessages.length) {
+                    mensajeDiv.textContent = alternativeMessages[clickCount - 1];
+                    mensajeDiv.style.transition = 'all 0.2s ease';
+                    mensajeDiv.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        mensajeDiv.style.transform = 'scale(1)';
+                    }, 200);
+                } else {
+                    // Después de varios clics vuelve al original
+                    mensajeDiv.textContent = originalMsg;
+                    mensajeDiv.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        mensajeDiv.style.transform = 'scale(1)';
+                    }, 250);
+                    clickCount = 0;
+                }
+                
+                // Crear minipartículas efímeras en el clic (pétalos volando)
+                for (let i = 0; i < 12; i++) {
+                    const spark = document.createElement('div');
+                    spark.style.position = 'absolute';
+                    spark.style.width = '8px';
+                    spark.style.height = '8px';
+                    spark.style.backgroundColor = `hsl(${320 + Math.random() * 40}, 80%, 65%)`;
+                    spark.style.borderRadius = '50%';
+                    spark.style.pointerEvents = 'none';
+                    spark.style.zIndex = '999';
+                    const rect = flowerContainer.getBoundingClientRect();
+                    spark.style.left = rect.left + rect.width / 2 + (Math.random() - 0.5) * 80 + 'px';
+                    spark.style.top = rect.top + rect.height / 2 + (Math.random() - 0.5) * 80 + 'px';
+                    spark.style.transition = 'transform 0.6s ease-out, opacity 0.6s';
+                    document.body.appendChild(spark);
+                    
+                    requestAnimationFrame(() => {
+                        spark.style.transform = `translate(${(Math.random() - 0.5) * 120}px, ${(Math.random() - 0.8) * 100 - 40}px) scale(0)`;
+                        spark.style.opacity = '0';
+                    });
+                    setTimeout(() => spark.remove(), 700);
+                }
+            });
+        }
+
+        /**
+         * Efecto al pasar mouse por el ramo
+         */
+        function addHoverEffect() {
+            if (flowerContainer) {
+                flowerContainer.addEventListener('mouseenter', () => {
+                    flowerContainer.style.filter = 'drop-shadow(0 12px 25px rgba(255, 105, 180, 0.5))';
+                });
+                flowerContainer.addEventListener('mouseleave', () => {
+                    flowerContainer.style.filter = 'drop-shadow(0 8px 12px rgba(0,0,0,0.1))';
+                });
+            }
+        }
+
+        /**
+         * Manejar la carga de la imagen por si tarda
+         */
+        function setupImageLoading() {
+            if (ramoImagen) {
+                // Si la imagen ya está cargada, no hace falta nada
+                if (ramoImagen.complete) {
+                    console.log('Imagen cargada correctamente');
+                } else {
+                    // Mostrar efecto de carga sutil
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.className = 'image-loading';
+                    loadingDiv.textContent = '🌸 Cargando ramo... 🌸';
+                    flowerContainer.style.position = 'relative';
+                    flowerContainer.appendChild(loadingDiv);
+                    
+                    ramoImagen.onload = () => {
+                        if (loadingDiv && loadingDiv.remove) loadingDiv.remove();
+                    };
+                    
+                    ramoImagen.onerror = () => {
+                        if (loadingDiv && loadingDiv.remove) loadingDiv.remove();
+                        console.log('Usando imagen de respaldo');
+                    };
+                }
+            }
+        }
+
+        // Inicializar toda la magia cuando la página carga
+        window.onload = () => {
+            showNextPhrase();
+            setupInteractiveFlower();
+            addHoverEffect();
+            setupImageLoading();
+            
+            // Pequeño detalle: si se hace clic en el mensaje final también replica calidez
+            if (mensajeDiv) {
+                mensajeDiv.addEventListener('click', () => {
+                    mensajeDiv.style.transform = 'scale(0.98)';
+                    setTimeout(() => mensajeDiv.style.transform = 'scale(1)', 150);
+                    // Agregar efecto de latido suave al título
+                    const titleH1 = document.querySelector('h1');
+                    if (titleH1) {
+                        titleH1.style.transform = 'scale(1.02)';
+                        setTimeout(() => titleH1.style.transform = 'scale(1)', 200);
+                    }
+                });
+            }
+        };
+
+        // Limpiar intervalo de partículas si se navega
+        window.addEventListener('beforeunload', () => {
+            if (particleInterval) clearInterval(particleInterval);
+        });
+    </script>
+</body>
+</html>
